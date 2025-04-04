@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 
-const PanoramaViewer = ({ currentScene, onSceneChange }) => {
+const PanoramaViewer = forwardRef(({ currentScene }, ref) => {
   const viewerRef = useRef(null);
   const viewerInstance = useRef(null);
 
@@ -17,13 +17,14 @@ const PanoramaViewer = ({ currentScene, onSceneChange }) => {
         escena1: {
           title: "Escena 1",
           type: "equirectangular",
-          panorama: "https://pannellum.org/images/cerro-toco-0.jpg",
+          panorama: "/panoramica-oficina1.jpg",
           hotSpots: [
             {
+              id: 'dinamico1',
               pitch: 2,
               yaw: 120,
               type: "info",
-              text: "Punto informativo en escena 1",
+              text: 'Hotspot dinámico',
               URL: "https://google.com"
             },
             {
@@ -38,13 +39,14 @@ const PanoramaViewer = ({ currentScene, onSceneChange }) => {
         escena2: {
           title: "Escena 2",
           type: "equirectangular",
-          panorama: "https://pannellum.org/images/alma.jpg",
+          panorama: "/panoramica1.jpg",
           hotSpots: [
             {
+              id: 'dinamico2',
               pitch: 2,
               yaw: 200,
               type: "info",
-              text: "Punto informativo en escena 2",
+              text: 'Hotspot dinámico',
               URL: "https://www.kiconex.com/"
             },
             {
@@ -63,13 +65,28 @@ const PanoramaViewer = ({ currentScene, onSceneChange }) => {
   }, []);
 
   useEffect(() => {
-    // Cambiar de escena cuando currentScene cambie
-    if (viewerInstance.current) {
-      viewerInstance.current.loadScene(currentScene);
-    }
+    viewerInstance.current?.loadScene(currentScene);
   }, [currentScene]);
 
+  // ⚡ Exponer método para actualizar hotspot
+  useImperativeHandle(ref, () => ({
+    updateHotspot({ id, pitch, yaw, text = "Actualizado" }) {
+      try {
+        viewerInstance.current.removeHotSpot(id);
+      } catch (e) {
+        // no pasa nada si no existe aún
+      }
+      viewerInstance.current.addHotSpot({
+        id,
+        pitch,
+        yaw,
+        type: "info",
+        text
+      });
+    }
+  }));
+
   return <div ref={viewerRef} style={{ width: "100%", height: "500px" }} />;
-};
+});
 
 export default PanoramaViewer;
