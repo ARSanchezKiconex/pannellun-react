@@ -8,14 +8,14 @@ function App() {
   useEffect(() => {
     let yaw = 0;
     const interval = setInterval(() => {
-      yaw = (yaw + 30) % 360;
+      const temp = (20 + Math.random() * 5).toFixed(1);
       viewerRef.current?.updateHotspot({
         id: "dinamico1",
-        pitch: 0,
-        yaw,
-        text: `Yaw: ${yaw}`
+        pitch: 10,
+        yaw: 15,
+        text: `Temperatura: ${temp}°C`
       });
-    }, 2000);
+    }, 2000);    
 
     return () => clearInterval(interval);
   }, []);
