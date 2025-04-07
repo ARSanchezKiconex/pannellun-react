@@ -18,11 +18,10 @@ const PanoramaViewer = forwardRef(({ currentScene }, ref) => {
           title: "Escena 1",
           type: "equirectangular",
           panorama: "/panoramica-oficina1.jpg",
-          hfov: 70,          // <-- Zoom por defecto
-          //minHfov: 70,     // no puede alejarse más
-          maxHfov: 70,     // no puede acercarse más tampoco
+          hfov: 70,
+          maxHfov: 70,
           minPitch: 0,
-          maxPitch: 0, // <- Bloqueo vertical
+          maxPitch: 0,
           hotSpots: [
             {
               id: 'dinamico1',
@@ -45,11 +44,11 @@ const PanoramaViewer = forwardRef(({ currentScene }, ref) => {
           title: "Escena 2",
           type: "equirectangular",
           panorama: "/panoramica1.jpg",
-          hfov: 80,          // <-- Zoom por defecto
-          minHfov: 80,     // no puede alejarse más
-          maxHfov: 80,     // no puede acercarse más tampoco
+          hfov: 80,
+          minHfov: 80,
+          maxHfov: 80,
           minPitch: 0,
-          maxPitch: 0, // <- Bloqueo vertical
+          maxPitch: 0,
           hotSpots: [
             {
               id: 'dinamico2',
@@ -78,13 +77,11 @@ const PanoramaViewer = forwardRef(({ currentScene }, ref) => {
     viewerInstance.current?.loadScene(currentScene);
   }, [currentScene]);
 
-  // ⚡ Exponer método para actualizar hotspot
   useImperativeHandle(ref, () => ({
     updateHotspot({ id, pitch, yaw, text = "Actualizado" }) {
       try {
         viewerInstance.current.removeHotSpot(id);
       } catch (e) {
-        // no pasa nada si no existe aún
       }
       viewerInstance.current.addHotSpot({
         id,
