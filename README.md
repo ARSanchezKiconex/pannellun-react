@@ -5,9 +5,9 @@ Este proyecto utiliza **React 18** junto con la biblioteca **Pannellum** para cr
 ## 🧱 **Stack Tecnológico**
 
 - **React 18**: Biblioteca para construir interfaces de usuario modernas y reactivas.
-- **JavaScript**: Lenguaje de programación utilizado (sin TypeScript por ahora).
+- **JavaScript**: Lenguaje de programación utilizado.
 - **Pannellum**: Herramienta para mostrar imágenes panorámicas en 360º (puede ser utilizada vía CDN o npm).
-- **Vite** (Recomendado) o **Create React App**: Herramientas para crear y desarrollar aplicaciones React. Se recomienda **Vite** por su velocidad y eficiencia en el desarrollo.
+- **Vite**: Herramienta para crear y desarrollar aplicaciones React. Destaca por su velocidad y eficiencia en el desarrollo.
 
 ## 🚀 **Cómo comenzar**
 
