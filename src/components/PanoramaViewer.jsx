@@ -1,6 +1,6 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 
-const PanoramaViewer = forwardRef(({ currentScene }, ref) => {
+const PanoramaViewer = forwardRef(({ currentScene, onSceneChange }, ref) => {
   const viewerRef = useRef(null);
   const viewerInstance = useRef(null);
 
@@ -18,22 +18,23 @@ const PanoramaViewer = forwardRef(({ currentScene }, ref) => {
           title: "Escena 1",
           type: "equirectangular",
           panorama: "/panoramica-oficina1.jpg",
-          hfov: 70,
-          maxHfov: 70,
+          hfov: 100,
+          minHfov: 50,
+          maxHfov: 120,
           minPitch: 0,
           maxPitch: 0,
           hotSpots: [
             {
               id: 'dinamico1',
-              pitch: 2,
-              yaw: 120,
+              pitch: 10,
+              yaw: 15,
               type: "info",
               text: 'Hotspot dinámico',
               URL: "https://google.com"
             },
             {
-              pitch: 0,
-              yaw: -160,
+              pitch: 10,
+              yaw: 0,
               type: "scene",
               text: "Ir a Escena 2",
               sceneId: "escena2"
@@ -52,15 +53,15 @@ const PanoramaViewer = forwardRef(({ currentScene }, ref) => {
           hotSpots: [
             {
               id: 'dinamico2',
-              pitch: 2,
-              yaw: 200,
+              pitch: 10,
+              yaw: 15,
               type: "info",
               text: 'Hotspot dinámico',
               URL: "https://www.kiconex.com/"
             },
             {
-              pitch: 0,
-              yaw: 90,
+              pitch: 10,
+              yaw: 0,
               type: "scene",
               text: "Volver a Escena 1",
               sceneId: "escena1"
@@ -68,6 +69,11 @@ const PanoramaViewer = forwardRef(({ currentScene }, ref) => {
           ]
         }
       }
+    });
+
+    viewerInstance.current.on('scenechange', () => {
+      const newScene = viewerInstance.current.getScene();
+      onSceneChange?.(newScene);
     });
 
     return () => viewerInstance.current?.destroy();
